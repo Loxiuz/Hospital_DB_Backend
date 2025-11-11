@@ -1,6 +1,6 @@
 package com.example.hospital_db_backend.model.mysql;
 
-import com.example.hospital_db_backend.model.templates.SurgeryTemplate;
+import com.example.hospital_db_backend.model.entity_bases.SurgeryBase;
 
-public class Surgery extends SurgeryTemplate {
+public class Surgery extends SurgeryBase {
 }

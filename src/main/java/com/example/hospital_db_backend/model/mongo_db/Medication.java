@@ -1,6 +1,6 @@
 package com.example.hospital_db_backend.model.mongo_db;
 
-import com.example.hospital_db_backend.model.templates.MedicationTemplate;
+import com.example.hospital_db_backend.model.entity_bases.MedicationBase;
 
-public class Medication extends MedicationTemplate {
+public class Medication extends MedicationBase {
 }
