@@ -1,27 +1,21 @@
 package com.example.hospital_db_backend.service;
 
 import com.example.hospital_db_backend.dto.WardRequest;
-import com.example.hospital_db_backend.model.mysql.Hospital;
 import com.example.hospital_db_backend.model.mysql.Ward;
 import com.example.hospital_db_backend.exception.EntityNotFoundException;
-import com.example.hospital_db_backend.repository.HospitalRepository;
 import com.example.hospital_db_backend.repository.WardRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.UUID;
 
 @Service
 public class WardService {
     private final WardRepository wardRepository;
-    private final HospitalRepository hospitalRepository;
 
-    public WardService(WardRepository wardRepository, HospitalRepository hospitalRepository) {
+    public WardService(WardRepository wardRepository) {
         this.wardRepository = wardRepository;
-        this.hospitalRepository = hospitalRepository;
     }
 
     public List<Ward> getWards() {
@@ -40,17 +34,6 @@ public class WardService {
         ward.setType(request.getType());
         ward.setMaxCapacity(request.getMaxCapacity());
 
-        if (request.getHospitalIds() != null && !request.getHospitalIds().isEmpty()) {
-            Set<Hospital> hospitals = new HashSet<>();
-            for (UUID hospitalId : request.getHospitalIds()) {
-                UUID hospitalUuid = Objects.requireNonNull(hospitalId, "Hospital ID cannot be null");
-                Hospital hospital = hospitalRepository.findById(hospitalUuid)
-                        .orElseThrow(() -> new EntityNotFoundException("Hospital not found: " + hospitalId));
-                hospitals.add(hospital);
-            }
-            ward.setHospitals(hospitals);
-        }
-
         return wardRepository.save(ward);
     }
 
@@ -61,17 +44,6 @@ public class WardService {
 
         ward.setType(request.getType());
         ward.setMaxCapacity(request.getMaxCapacity());
-
-        if (request.getHospitalIds() != null) {
-            Set<Hospital> hospitals = new HashSet<>();
-            for (UUID hospitalId : request.getHospitalIds()) {
-                UUID hospitalUuid = Objects.requireNonNull(hospitalId, "Hospital ID cannot be null");
-                Hospital hospital = hospitalRepository.findById(hospitalUuid)
-                        .orElseThrow(() -> new EntityNotFoundException("Hospital not found: " + hospitalId));
-                hospitals.add(hospital);
-            }
-            ward.setHospitals(hospitals);
-        }
 
         return wardRepository.save(ward);
     }

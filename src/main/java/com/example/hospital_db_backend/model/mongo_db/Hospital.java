@@ -4,8 +4,10 @@ import com.example.hospital_db_backend.model.entity_bases.HospitalBase;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -14,4 +16,6 @@ import java.util.UUID;
 public class Hospital extends HospitalBase {
     @Id
     private UUID hospitalId;
+    @DBRef
+    private Set<Ward> wards;
 }

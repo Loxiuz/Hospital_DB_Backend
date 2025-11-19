@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -24,5 +25,7 @@ public class PatientRequest {
     private UUID wardId;
     
     private UUID hospitalId;
+
+    private Set<UUID> diagnosisIds;
 }
 
