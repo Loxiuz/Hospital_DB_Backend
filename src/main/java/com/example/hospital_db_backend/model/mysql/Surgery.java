@@ -10,12 +10,20 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@Table(name = "surgeries")
+@Table(name = "surgeries", indexes = {
+    @Index(name = "idx_surgery_date", columnList = "surgeryDate"),
+    @Index(name = "idx_surgery_patient_date", columnList = "patient_id,surgeryDate"),
+    @Index(name = "idx_surgery_doctor_date", columnList = "doctor_id,surgeryDate")
+})
 public class Surgery extends SurgeryBase {
     @Id
     private UUID surgeryId;
+    
     @ManyToOne
+    @JoinColumn(nullable = false)
     private Patient patient;
+    
     @ManyToOne
+    @JoinColumn(nullable = false)
     private Doctor doctor;
 }
