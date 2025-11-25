@@ -1,6 +1,7 @@
 package com.example.hospital_db_backend.model.entity_bases;
 
 import com.example.hospital_db_backend.model.types.WardType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.MappedSuperclass;
@@ -12,6 +13,9 @@ import lombok.Setter;
 @MappedSuperclass
 public abstract class WardBase {
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     protected WardType type;
+    
+    @Column(nullable = false)
     protected int maxCapacity;
 }
