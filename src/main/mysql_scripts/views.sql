@@ -12,4 +12,25 @@ from appointments a
 where a.appointment_date >= curdate()
   and a.status = 'Scheduled';
 
+-- Ward Occupancy View
+create or replace view ward_occupancy as
+select 
+    w.ward_id,
+    w.ward_name,
+    h.hospital_name,
+    h.city,
+    w.max_capacity,
+    count(p.patient_id) as current_patients,
+    w.max_capacity - count(p.patient_id) as available_beds,
+    round((count(p.patient_id) / w.max_capacity) * 100, 2) as occupancy_percentage,
+    case 
+        when count(p.patient_id) >= w.max_capacity then 'Full'
+        when count(p.patient_id) >= w.max_capacity * 0.8 then 'Near Capacity'
+        else 'Available'
+    end as status
+from wards w
+left join patients p on w.ward_id = p.ward_id
+join hospitals h on w.hospital_id = h.hospital_id
+group by w.ward_id, w.ward_name, h.hospital_name, h.city, w.max_capacity;
+
 SELECT * FROM scheduled_appointments;

@@ -26,9 +26,6 @@ public class HospitalController {
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<List<Hospital>> getHospitals() {
         List<Hospital> hospitals = hospitalService.getHospitals();
-        if(hospitals.isEmpty()){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
         return new ResponseEntity<>(hospitals, HttpStatus.OK);
     }
 

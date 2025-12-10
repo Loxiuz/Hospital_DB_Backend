@@ -23,6 +23,11 @@ public class WardService {
         return wardRepository.findAll();
     }
 
+    public List<Ward> getWardsByHospitalId(UUID hospitalId) {
+        UUID hospitalUuid = Objects.requireNonNull(hospitalId, "Hospital ID cannot be null");
+        return wardRepository.findByHospitalId(hospitalUuid);
+    }
+
     public Ward getWardById(UUID id) {
         UUID wardId = Objects.requireNonNull(id, "Ward ID cannot be null");
         return wardRepository.findById(wardId)
