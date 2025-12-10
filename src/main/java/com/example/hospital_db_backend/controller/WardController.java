@@ -26,9 +26,13 @@ public class WardController {
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<List<Ward>> getWards() {
         List<Ward> wards = wardService.getWards();
-        if(wards.isEmpty()){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
+        return new ResponseEntity<>(wards, HttpStatus.OK);
+    }
+
+    @GetMapping("/by-hospital/{hospitalId}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    public ResponseEntity<List<Ward>> getWardsByHospital(@PathVariable UUID hospitalId) {
+        List<Ward> wards = wardService.getWardsByHospitalId(hospitalId);
         return new ResponseEntity<>(wards, HttpStatus.OK);
     }
 

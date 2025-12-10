@@ -7,6 +7,7 @@ import com.example.hospital_db_backend.model.mysql.Ward;
 import com.example.hospital_db_backend.repository.HospitalRepository;
 import com.example.hospital_db_backend.repository.WardRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -30,6 +31,7 @@ public class HospitalService {
                 .orElseThrow(() -> new EntityNotFoundException("Hospital not found"));
     }
 
+    @Transactional
     public Hospital createHospital(HospitalRequest request) {
         Hospital hospital = new Hospital();
         hospital.setHospitalId(UUID.randomUUID());
@@ -51,6 +53,7 @@ public class HospitalService {
         return hospitalRepository.save(hospital);
     }
 
+    @Transactional
     public Hospital updateHospital(UUID id, HospitalRequest request) {
         UUID hospitalId = Objects.requireNonNull(id, "Hospital ID cannot be null");
         Hospital hospital = hospitalRepository.findById(hospitalId)
@@ -74,6 +77,7 @@ public class HospitalService {
         return hospitalRepository.save(hospital);
     }
 
+    @Transactional
     public void deleteHospital(UUID id) {
         UUID hospitalId = Objects.requireNonNull(id, "Hospital ID cannot be null");
         if (!hospitalRepository.existsById(hospitalId)) {

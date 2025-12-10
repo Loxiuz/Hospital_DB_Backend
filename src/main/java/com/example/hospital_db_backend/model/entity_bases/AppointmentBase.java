@@ -1,6 +1,7 @@
 package com.example.hospital_db_backend.model.entity_bases;
 
 import com.example.hospital_db_backend.model.types.AppointmentStatusType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.MappedSuperclass;
@@ -13,8 +14,12 @@ import java.time.LocalDate;
 @Setter
 @MappedSuperclass
 public abstract class AppointmentBase {
+    @Column(nullable = false)
     protected LocalDate appointmentDate;
+    
     protected String reason;
+    
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     protected AppointmentStatusType status;
 }

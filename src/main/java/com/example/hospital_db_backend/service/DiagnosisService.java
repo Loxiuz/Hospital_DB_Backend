@@ -8,6 +8,7 @@ import com.example.hospital_db_backend.repository.DiagnosisRepository;
 import com.example.hospital_db_backend.repository.DoctorRepository;
 import com.example.hospital_db_backend.repository.PatientRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -34,6 +35,7 @@ public class DiagnosisService {
                 .orElseThrow(() -> new EntityNotFoundException("Diagnosis not found"));
     }
 
+    @Transactional
     public Diagnosis createDiagnosis(DiagnosisRequest request) {
         Diagnosis diagnosis = new Diagnosis();
         diagnosis.setDiagnosisId(UUID.randomUUID());
@@ -50,6 +52,7 @@ public class DiagnosisService {
         return diagnosisRepository.save(diagnosis);
     }
 
+    @Transactional
     public Diagnosis updateDiagnosis(UUID id, DiagnosisRequest request) {
         UUID diagnosisId = Objects.requireNonNull(id, "Diagnosis ID cannot be null");
         Diagnosis diagnosis = diagnosisRepository.findById(diagnosisId)
@@ -68,6 +71,7 @@ public class DiagnosisService {
         return diagnosisRepository.save(diagnosis);
     }
 
+    @Transactional
     public void deleteDiagnosis(UUID id) {
         UUID diagnosisId = Objects.requireNonNull(id, "Diagnosis ID cannot be null");
         if (!diagnosisRepository.existsById(diagnosisId)) {

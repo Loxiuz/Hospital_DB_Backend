@@ -5,15 +5,25 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "diagnosis")
+@Table(name = "diagnosis", indexes = {
+    @Index(name = "idx_diagnosis_date", columnList = "diagnosisDate"),
+    @Index(name = "idx_diagnosis_patient_date", columnList = "patient_id,diagnosisDate"),
+    @Index(name = "idx_diagnosis_doctor_date", columnList = "doctor_id,diagnosisDate")
+})
 public class Diagnosis extends DiagnosisBase {
     @Id
     private UUID diagnosisId;
+    
+    @ManyToMany
+    private Set<Patient> patients;
+    
     @ManyToOne
+    @JoinColumn(nullable = false)
     private Doctor doctor;
 }

@@ -1,6 +1,7 @@
 package com.example.hospital_db_backend.model.entity_bases;
 
 import com.example.hospital_db_backend.model.types.NurseSpecialityType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.MappedSuperclass;
@@ -11,7 +12,10 @@ import lombok.Setter;
 @Setter
 @MappedSuperclass
 public abstract class NurseBase {
+    @Column(nullable = false)
     protected String nurseName;
+    
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     protected NurseSpecialityType speciality;
 }

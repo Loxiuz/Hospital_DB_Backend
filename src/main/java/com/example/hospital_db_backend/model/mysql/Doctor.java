@@ -14,6 +14,8 @@ import java.util.UUID;
 public class Doctor extends DoctorBase {
     @Id
     private UUID doctorId;
+    
     @ManyToOne
+    @JoinColumn(nullable = false)
     private Ward ward;
 }

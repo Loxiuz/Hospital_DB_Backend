@@ -11,13 +11,19 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@Table(name = "patients")
+@Table(name = "patients", indexes = {
+    @Index(name = "idx_patient_name", columnList = "patientName")
+})
 public class Patient extends PatientBase {
     @Id
     private UUID patientId;
+    
     @ManyToOne
+    @JoinColumn(nullable = false)
     private Ward ward;
+    
     @ManyToOne
+    @JoinColumn(nullable = false)
     private Hospital hospital;
     @ManyToMany
     private Set<Diagnosis> diagnosis;
