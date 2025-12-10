@@ -4,6 +4,9 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Set;
+import java.util.UUID;
+
 @Getter
 @Setter
 public class HospitalRequest {
@@ -15,5 +18,7 @@ public class HospitalRequest {
     
     @NotBlank(message = "City is required")
     private String city;
+
+    private Set<UUID> wardIds;
 }
 

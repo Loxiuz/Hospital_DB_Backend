@@ -42,7 +42,7 @@ public class HospitalDbBackendApplication {
                     Runtime runtime = Runtime.getRuntime();
                     
                     if (os.contains("win")) {
-                        runtime.exec("cmd /c start " + swaggerUrl);
+                        // runtime.exec("cmd /c start " + swaggerUrl);
                     } else if (os.contains("mac")) {
                         runtime.exec("open " + swaggerUrl);
                     } else {

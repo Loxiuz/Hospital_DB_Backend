@@ -1,32 +1,34 @@
 package com.example.hospital_db_backend.service;
 
 import com.example.hospital_db_backend.dto.PatientRequest;
+import com.example.hospital_db_backend.model.mysql.Diagnosis;
 import com.example.hospital_db_backend.model.mysql.Hospital;
 import com.example.hospital_db_backend.model.mysql.Patient;
 import com.example.hospital_db_backend.model.mysql.Ward;
 import com.example.hospital_db_backend.exception.EntityNotFoundException;
+import com.example.hospital_db_backend.repository.DiagnosisRepository;
 import com.example.hospital_db_backend.repository.HospitalRepository;
 import com.example.hospital_db_backend.repository.PatientRepository;
 import com.example.hospital_db_backend.repository.WardRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class PatientService {
     private final PatientRepository patientRepository;
     private final WardRepository wardRepository;
     private final HospitalRepository hospitalRepository;
+    private final DiagnosisRepository diagnosisRepository;
 
     public PatientService(PatientRepository patientRepository,
                           WardRepository wardRepository,
-                          HospitalRepository hospitalRepository) {
+                          HospitalRepository hospitalRepository, DiagnosisRepository diagnosisRepository) {
         this.patientRepository = patientRepository;
         this.wardRepository = wardRepository;
         this.hospitalRepository = hospitalRepository;
+        this.diagnosisRepository = diagnosisRepository;
     }
 
     public List<Patient> getPatients() {
@@ -46,6 +48,17 @@ public class PatientService {
         patient.setPatientName(request.getPatientName());
         patient.setDateOfBirth(request.getDateOfBirth());
         patient.setGender(request.getGender());
+
+        if (request.getDiagnosisIds() != null) {
+            Set<Diagnosis> diagnoses = new HashSet<>();
+            for (UUID diagnosisId : request.getDiagnosisIds()) {
+                UUID diagnosisUuid = Objects.requireNonNull(diagnosisId, "Diagnosis ID cannot be null");
+                Diagnosis diagnosis = diagnosisRepository.findById(diagnosisUuid)
+                        .orElseThrow(() -> new EntityNotFoundException("Diagnosis not found: " + diagnosisId));
+                diagnoses.add(diagnosis);
+            }
+            patient.setDiagnosis(diagnoses);
+        }
 
         UUID wardId = request.getWardId();
         if (wardId != null) {
@@ -73,6 +86,17 @@ public class PatientService {
         patient.setPatientName(request.getPatientName());
         patient.setDateOfBirth(request.getDateOfBirth());
         patient.setGender(request.getGender());
+
+        if (request.getDiagnosisIds() != null) {
+            Set<Diagnosis> patients = new HashSet<>();
+            for (UUID diagnosisId : request.getDiagnosisIds()) {
+                UUID diagnosisUuid = Objects.requireNonNull(diagnosisId, "Diagnosis ID cannot be null");
+                Diagnosis diagnosis = diagnosisRepository.findById(diagnosisUuid)
+                        .orElseThrow(() -> new EntityNotFoundException("Diagnosis not found: " + diagnosisId));
+                patients.add(diagnosis);
+            }
+            patient.setDiagnosis(patients);
+        }
 
         UUID wardId = request.getWardId();
         if (wardId != null) {
